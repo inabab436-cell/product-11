@@ -504,11 +504,11 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 pt-3">
-        {product.category && <span className="store-label text-muted-foreground">{product.category}</span>}
-        <button type="button" onClick={() => setOpen(true)} className="text-right text-sm font-medium leading-snug hover:underline underline-offset-4 sm:text-[15px]">{product.name}</button>
+      <div className="flex min-w-0 flex-1 flex-col gap-2.5 pt-3">
+        {product.category && <span className="store-label truncate text-[10px] text-muted-foreground">{product.category}</span>}
+        <button type="button" onClick={() => setOpen(true)} className="line-clamp-2 min-h-[2.5rem] text-right text-sm font-medium leading-5 hover:underline underline-offset-4">{product.name}</button>
         {unitPrice != null && (
-          <div className="flex items-baseline gap-2 text-sm">
+          <div className="flex flex-wrap items-baseline gap-x-2 text-sm">
             <span className={`font-semibold ${sale ? "text-destructive" : ""}`}>
               {sale ? plan!.unitPriceNow : unitPrice} {cur}
             </span>
@@ -524,13 +524,13 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
           </div>
         )}
         {sizesForColor.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="grid grid-cols-4 gap-1">
             {sizesForColor.map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => { setSize(s); setQty(1); }}
-                className={`grid h-8 min-w-8 place-items-center border px-1.5 text-[11px] font-semibold transition ${effectiveSize === s ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary"}`}
+                className={`h-8 min-w-0 truncate border px-1 text-[11px] font-semibold transition ${effectiveSize === s ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary"}`}
               >
                 {s}
               </button>
@@ -548,19 +548,19 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
         )}
 
         {!outOfStock && (
-          <div className="mt-auto flex items-stretch gap-2 pt-1">
-            <div className="flex h-10 items-center border border-border">
-              <button type="button" aria-label="زيادة" className="h-full w-8 hover:bg-muted" onClick={() => setQty(Math.min(clampedQty + 1, maxQty))}>+</button>
-              <span className="w-6 text-center text-sm">{clampedQty}</span>
-              <button type="button" aria-label="نقص" className="h-full w-8 hover:bg-muted" onClick={() => setQty(Math.max(clampedQty - 1, 1))}>−</button>
+          <div className="mt-auto flex flex-col gap-2 pt-1">
+            <div className="flex h-9 items-center justify-between border border-border">
+              <button type="button" aria-label="زيادة" className="h-full w-9 hover:bg-muted" onClick={() => setQty(Math.min(clampedQty + 1, maxQty))}>+</button>
+              <span className="text-sm">{clampedQty}</span>
+              <button type="button" aria-label="نقص" className="h-full w-9 hover:bg-muted" onClick={() => setQty(Math.max(clampedQty - 1, 1))}>−</button>
             </div>
             <button
               type="button"
               disabled={alreadyInCart}
               onClick={addToCart}
-              className="store-label h-10 flex-1 bg-primary text-primary-foreground transition hover:bg-primary/85 disabled:bg-muted disabled:text-muted-foreground"
+              className="store-label h-10 w-full bg-primary text-primary-foreground transition hover:bg-primary/85 disabled:bg-muted disabled:text-muted-foreground"
             >
-              {alreadyInCart ? "في السلة" : "أضف"}
+              {alreadyInCart ? "في السلة ✓" : "شراء الآن"}
             </button>
           </div>
         )}
@@ -572,30 +572,32 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
               <span className="store-label">تفاصيل المنتج</span>
               <button onClick={() => setOpen(false)} aria-label="إغلاق" className="rounded p-1 hover:bg-muted"><X className="h-4 w-4" /></button>
             </div>
-            <div className="relative aspect-[3/4] w-full bg-secondary">
-              {shownImg ? <img src={shownImg} alt={product.name} className="absolute inset-0 h-full w-full object-cover" /> : (
+            <div className="relative mx-auto aspect-square max-h-[55vh] w-full bg-secondary">
+              {shownImg ? <img src={shownImg} alt={product.name} className="absolute inset-0 h-full w-full object-contain" /> : (
                 <div className="grid h-full place-items-center"><ShoppingBag className="h-10 w-10 text-muted-foreground" strokeWidth={1} /></div>
               )}
             </div>
             {gallery.length > 1 && (
               <div className="flex gap-2 overflow-x-auto px-5 pt-3">
                 {gallery.map((g) => (
-                  <button key={g} type="button" onClick={() => setActiveImg(g)} className={`h-20 w-16 shrink-0 overflow-hidden border-2 transition ${shownImg === g ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"}`}>
+                  <button key={g} type="button" onClick={() => setActiveImg(g)} className={`h-16 w-16 shrink-0 overflow-hidden border-2 transition ${shownImg === g ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"}`}>
                     <img src={g} alt="" className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
-            <div className="flex flex-col gap-4 p-5">
-              {product.category && <span className="store-label text-muted-foreground">{product.category}</span>}
-              <h2 className="store-display text-3xl leading-tight">{product.name}</h2>
-              {unitPrice != null && (
-                <div className="flex items-baseline gap-2">
-                  <span className={`text-xl font-semibold ${sale ? "text-destructive" : ""}`}>{sale ? plan!.unitPriceNow : unitPrice} {cur}</span>
-                  {sale && <span className="text-sm text-muted-foreground line-through">{unitPrice} {cur}</span>}
-                </div>
-              )}
-              {product.description && <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{product.description}</p>}
+            <div className="flex flex-col gap-5 px-5 pb-8 pt-5">
+              <div className="flex flex-col gap-2 border-b border-border pb-5">
+                {product.category && <span className="store-label text-[11px] text-muted-foreground">{product.category}</span>}
+                <h2 className="text-xl font-semibold leading-snug sm:text-2xl">{product.name}</h2>
+                {unitPrice != null && (
+                  <div className="flex items-baseline gap-2">
+                    <span className={`text-lg font-semibold ${sale ? "text-destructive" : ""}`}>{sale ? plan!.unitPriceNow : unitPrice} {cur}</span>
+                    {sale && <span className="text-sm text-muted-foreground line-through">{unitPrice} {cur}</span>}
+                  </div>
+                )}
+              </div>
+              {product.description && <p className="whitespace-pre-line text-sm leading-7 text-muted-foreground">{product.description}</p>}
               {availableColors.length > 0 && (
                 <div>
                   <p className="store-label mb-2">اللون: <span className="text-muted-foreground">{color}</span></p>
