@@ -504,11 +504,11 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 pt-3">
-        {product.category && <span className="store-label text-muted-foreground">{product.category}</span>}
-        <button type="button" onClick={() => setOpen(true)} className="text-right text-sm font-medium leading-snug hover:underline underline-offset-4 sm:text-[15px]">{product.name}</button>
+      <div className="flex min-w-0 flex-1 flex-col gap-2.5 pt-3">
+        {product.category && <span className="store-label truncate text-[10px] text-muted-foreground">{product.category}</span>}
+        <button type="button" onClick={() => setOpen(true)} className="line-clamp-2 min-h-[2.5rem] text-right text-sm font-medium leading-5 hover:underline underline-offset-4">{product.name}</button>
         {unitPrice != null && (
-          <div className="flex items-baseline gap-2 text-sm">
+          <div className="flex flex-wrap items-baseline gap-x-2 text-sm">
             <span className={`font-semibold ${sale ? "text-destructive" : ""}`}>
               {sale ? plan!.unitPriceNow : unitPrice} {cur}
             </span>
@@ -524,13 +524,13 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
           </div>
         )}
         {sizesForColor.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="grid grid-cols-4 gap-1">
             {sizesForColor.map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => { setSize(s); setQty(1); }}
-                className={`grid h-8 min-w-8 place-items-center border px-1.5 text-[11px] font-semibold transition ${effectiveSize === s ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary"}`}
+                className={`h-8 min-w-0 truncate border px-1 text-[11px] font-semibold transition ${effectiveSize === s ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary"}`}
               >
                 {s}
               </button>
@@ -548,19 +548,19 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
         )}
 
         {!outOfStock && (
-          <div className="mt-auto flex items-stretch gap-2 pt-1">
-            <div className="flex h-10 items-center border border-border">
-              <button type="button" aria-label="زيادة" className="h-full w-8 hover:bg-muted" onClick={() => setQty(Math.min(clampedQty + 1, maxQty))}>+</button>
-              <span className="w-6 text-center text-sm">{clampedQty}</span>
-              <button type="button" aria-label="نقص" className="h-full w-8 hover:bg-muted" onClick={() => setQty(Math.max(clampedQty - 1, 1))}>−</button>
+          <div className="mt-auto flex flex-col gap-2 pt-1">
+            <div className="flex h-9 items-center justify-between border border-border">
+              <button type="button" aria-label="زيادة" className="h-full w-9 hover:bg-muted" onClick={() => setQty(Math.min(clampedQty + 1, maxQty))}>+</button>
+              <span className="text-sm">{clampedQty}</span>
+              <button type="button" aria-label="نقص" className="h-full w-9 hover:bg-muted" onClick={() => setQty(Math.max(clampedQty - 1, 1))}>−</button>
             </div>
             <button
               type="button"
               disabled={alreadyInCart}
               onClick={addToCart}
-              className="store-label h-10 flex-1 bg-primary text-primary-foreground transition hover:bg-primary/85 disabled:bg-muted disabled:text-muted-foreground"
+              className="store-label h-10 w-full bg-primary text-primary-foreground transition hover:bg-primary/85 disabled:bg-muted disabled:text-muted-foreground"
             >
-              {alreadyInCart ? "في السلة" : "أضف"}
+              {alreadyInCart ? "في السلة ✓" : "شراء الآن"}
             </button>
           </div>
         )}
