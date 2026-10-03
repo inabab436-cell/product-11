@@ -491,17 +491,6 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
             <span className="store-label bg-background px-3 py-1.5">نفدت الكمية</span>
           </div>
         )}
-        {/* Quick add */}
-        {!outOfStock && (
-          <button
-            type="button"
-            disabled={alreadyInCart}
-            onClick={(e) => { e.stopPropagation(); addToCart(); }}
-            className="store-label absolute inset-x-2 bottom-2 h-11 bg-background/95 text-foreground opacity-100 transition hover:bg-primary hover:text-primary-foreground disabled:opacity-80 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100"
-          >
-            {alreadyInCart ? "في السلة ✓" : "أضف إلى السلة +"}
-          </button>
-        )}
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col gap-2.5 pt-3">
@@ -548,12 +537,7 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
         )}
 
         {!outOfStock && (
-          <div className="mt-auto flex flex-col gap-2 pt-1">
-            <div className="flex h-9 items-center justify-between border border-border">
-              <button type="button" aria-label="زيادة" className="h-full w-9 hover:bg-muted" onClick={() => setQty(Math.min(clampedQty + 1, maxQty))}>+</button>
-              <span className="text-sm">{clampedQty}</span>
-              <button type="button" aria-label="نقص" className="h-full w-9 hover:bg-muted" onClick={() => setQty(Math.max(clampedQty - 1, 1))}>−</button>
-            </div>
+          <div className="mt-auto pt-1">
             <button
               type="button"
               disabled={alreadyInCart}
