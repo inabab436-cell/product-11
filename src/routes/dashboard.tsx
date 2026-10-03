@@ -1,9 +1,7 @@
-import { useMemo } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import {
   Package, Truck, PhoneCall, Globe, ArrowLeft, CreditCard,
-  ShoppingBag, BadgePercent, MessagesSquare, MailCheck, Users, LayoutGrid,
+  ShoppingBag, BadgePercent, MessagesSquare, MailCheck, LayoutGrid,
 } from "lucide-react";
 
 import { HubTabBar } from "@/components/hub/hub-shell";
@@ -85,7 +83,7 @@ function DashboardPage() {
           <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
             <SiteIdentity fallbackLogo={logo.url} />
             <div className="flex shrink-0 items-center gap-2">
-              {can("brand_data") && <SiteSettingsButton />}
+              <SiteSettingsButton />
             </div>
           </div>
         </header>
@@ -98,7 +96,7 @@ function DashboardPage() {
               <h2 className="mt-1 text-2xl font-bold">مرحباً بك</h2>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              {can("orders") && (
+              {(
                 <Link to="/orders" className="dashboard-summary-card group">
                   <span className="grid h-10 w-10 place-items-center rounded-lg bg-dashboard-blue-soft text-dashboard-blue"><ShoppingBag className="h-5 w-5" /></span>
                   <span className="min-w-0 flex-1">

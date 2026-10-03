@@ -41,27 +41,7 @@ export async function requireActor(): Promise<Actor> {
     return ownerActor(userId, email);
   }
 
-  const merchantId = session.data.userId;
-  const staffId = session.data.staffId ?? null;
-  if (!staffId) {
-    return ownerActor(merchantId, session.data.email ?? "");
-  }
-
-  const { getStaffById } = await import("@/lib/staff.server");
-  const member = await getStaffById(merchantId, staffId);
-  if (!member || member.status !== "active") {
-    throw new Error("تم إيقاف هذا الحساب. تواصل مع صاحب الحساب.");
-  }
-
-  return {
-    merchantId,
-    staffId,
-    email: member.email ?? "",
-    name: member.name,
-    isOwner: false,
-    full_access: member.full_access,
-    permissions: member.full_access ? [...STAFF_PERMISSIONS] : member.permissions,
-  };
+  return ownerActor(session.data.userId, session.data.email ?? "");
 }
 
 function ownerActor(merchantId: string, email: string): Actor {
