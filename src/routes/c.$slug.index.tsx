@@ -572,30 +572,32 @@ function ProductCard({ product }: { product: StorefrontData["products"][number] 
               <span className="store-label">تفاصيل المنتج</span>
               <button onClick={() => setOpen(false)} aria-label="إغلاق" className="rounded p-1 hover:bg-muted"><X className="h-4 w-4" /></button>
             </div>
-            <div className="relative aspect-[3/4] w-full bg-secondary">
-              {shownImg ? <img src={shownImg} alt={product.name} className="absolute inset-0 h-full w-full object-cover" /> : (
+            <div className="relative mx-auto aspect-square max-h-[55vh] w-full bg-secondary">
+              {shownImg ? <img src={shownImg} alt={product.name} className="absolute inset-0 h-full w-full object-contain" /> : (
                 <div className="grid h-full place-items-center"><ShoppingBag className="h-10 w-10 text-muted-foreground" strokeWidth={1} /></div>
               )}
             </div>
             {gallery.length > 1 && (
               <div className="flex gap-2 overflow-x-auto px-5 pt-3">
                 {gallery.map((g) => (
-                  <button key={g} type="button" onClick={() => setActiveImg(g)} className={`h-20 w-16 shrink-0 overflow-hidden border-2 transition ${shownImg === g ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"}`}>
+                  <button key={g} type="button" onClick={() => setActiveImg(g)} className={`h-16 w-16 shrink-0 overflow-hidden border-2 transition ${shownImg === g ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"}`}>
                     <img src={g} alt="" className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
-            <div className="flex flex-col gap-4 p-5">
-              {product.category && <span className="store-label text-muted-foreground">{product.category}</span>}
-              <h2 className="store-display text-3xl leading-tight">{product.name}</h2>
-              {unitPrice != null && (
-                <div className="flex items-baseline gap-2">
-                  <span className={`text-xl font-semibold ${sale ? "text-destructive" : ""}`}>{sale ? plan!.unitPriceNow : unitPrice} {cur}</span>
-                  {sale && <span className="text-sm text-muted-foreground line-through">{unitPrice} {cur}</span>}
-                </div>
-              )}
-              {product.description && <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{product.description}</p>}
+            <div className="flex flex-col gap-5 px-5 pb-8 pt-5">
+              <div className="flex flex-col gap-2 border-b border-border pb-5">
+                {product.category && <span className="store-label text-[11px] text-muted-foreground">{product.category}</span>}
+                <h2 className="text-xl font-semibold leading-snug sm:text-2xl">{product.name}</h2>
+                {unitPrice != null && (
+                  <div className="flex items-baseline gap-2">
+                    <span className={`text-lg font-semibold ${sale ? "text-destructive" : ""}`}>{sale ? plan!.unitPriceNow : unitPrice} {cur}</span>
+                    {sale && <span className="text-sm text-muted-foreground line-through">{unitPrice} {cur}</span>}
+                  </div>
+                )}
+              </div>
+              {product.description && <p className="whitespace-pre-line text-sm leading-7 text-muted-foreground">{product.description}</p>}
               {availableColors.length > 0 && (
                 <div>
                   <p className="store-label mb-2">اللون: <span className="text-muted-foreground">{color}</span></p>
