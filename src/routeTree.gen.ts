@@ -21,7 +21,6 @@ import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as PublishedRouteImport } from './routes/published'
 import { Route as ShippingRouteImport } from './routes/shipping'
-import { Route as TeamRouteImport } from './routes/team'
 import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as ApiChatAiRouteImport } from './routes/api/chat-ai'
 import { Route as ApiVisitorRouteImport } from './routes/api/visitor'
@@ -30,7 +29,6 @@ import { Route as CSlugRouteImport } from './routes/c.$slug'
 import { Route as ChatSlugRouteImport } from './routes/chat.$slug'
 import { Route as SettingsNotificationsRouteImport } from './routes/settings.notifications'
 import { Route as SettingsPaymentMethodsRouteImport } from './routes/settings.payment-methods'
-import { Route as TeamJoinRouteImport } from './routes/team.join'
 import { Route as CSlugIndexRouteImport } from './routes/c.$slug.index'
 import { Route as CSlugAccountRouteImport } from './routes/c.$slug.account'
 import { Route as CSlugTrackRouteImport } from './routes/c.$slug.track'
@@ -95,11 +93,6 @@ const ShippingRoute = ShippingRouteImport.update({
   path: '/shipping',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TeamRoute = TeamRouteImport.update({
-  id: '/team',
-  path: '/team',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
   path: '/welcome',
@@ -140,11 +133,6 @@ const SettingsPaymentMethodsRoute = SettingsPaymentMethodsRouteImport.update({
   path: '/settings/payment-methods',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TeamJoinRoute = TeamJoinRouteImport.update({
-  id: '/join',
-  path: '/join',
-  getParentRoute: () => TeamRoute,
-} as any)
 const CSlugIndexRoute = CSlugIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -174,7 +162,6 @@ export interface FileRoutesByFullPath {
   '/products': typeof ProductsRoute
   '/published': typeof PublishedRoute
   '/shipping': typeof ShippingRoute
-  '/team': typeof TeamRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/api/chat-ai': typeof ApiChatAiRoute
   '/api/visitor': typeof ApiVisitorRoute
@@ -183,7 +170,6 @@ export interface FileRoutesByFullPath {
   '/chat/$slug': typeof ChatSlugRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/payment-methods': typeof SettingsPaymentMethodsRoute
-  '/team/join': typeof TeamJoinRoute
   '/c/$slug/account': typeof CSlugAccountRoute
   '/c/$slug/track': typeof CSlugTrackRoute
   '/c/$slug/': typeof CSlugIndexRoute
@@ -201,7 +187,6 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsRoute
   '/published': typeof PublishedRoute
   '/shipping': typeof ShippingRoute
-  '/team': typeof TeamRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/api/chat-ai': typeof ApiChatAiRoute
   '/api/visitor': typeof ApiVisitorRoute
@@ -209,7 +194,6 @@ export interface FileRoutesByTo {
   '/chat/$slug': typeof ChatSlugRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/payment-methods': typeof SettingsPaymentMethodsRoute
-  '/team/join': typeof TeamJoinRoute
   '/c/$slug/account': typeof CSlugAccountRoute
   '/c/$slug/track': typeof CSlugTrackRoute
   '/c/$slug': typeof CSlugIndexRoute
@@ -228,7 +212,6 @@ export interface FileRoutesById {
   '/products': typeof ProductsRoute
   '/published': typeof PublishedRoute
   '/shipping': typeof ShippingRoute
-  '/team': typeof TeamRouteWithChildren
   '/welcome': typeof WelcomeRoute
   '/api/chat-ai': typeof ApiChatAiRoute
   '/api/visitor': typeof ApiVisitorRoute
@@ -237,7 +220,6 @@ export interface FileRoutesById {
   '/chat/$slug': typeof ChatSlugRoute
   '/settings/notifications': typeof SettingsNotificationsRoute
   '/settings/payment-methods': typeof SettingsPaymentMethodsRoute
-  '/team/join': typeof TeamJoinRoute
   '/c/$slug/account': typeof CSlugAccountRoute
   '/c/$slug/track': typeof CSlugTrackRoute
   '/c/$slug/': typeof CSlugIndexRoute
@@ -257,7 +239,6 @@ export interface FileRouteTypes {
     | '/products'
     | '/published'
     | '/shipping'
-    | '/team'
     | '/welcome'
     | '/api/chat-ai'
     | '/api/visitor'
@@ -266,7 +247,6 @@ export interface FileRouteTypes {
     | '/chat/$slug'
     | '/settings/notifications'
     | '/settings/payment-methods'
-    | '/team/join'
     | '/c/$slug/account'
     | '/c/$slug/track'
     | '/c/$slug/'
@@ -284,7 +264,6 @@ export interface FileRouteTypes {
     | '/products'
     | '/published'
     | '/shipping'
-    | '/team'
     | '/welcome'
     | '/api/chat-ai'
     | '/api/visitor'
@@ -292,7 +271,6 @@ export interface FileRouteTypes {
     | '/chat/$slug'
     | '/settings/notifications'
     | '/settings/payment-methods'
-    | '/team/join'
     | '/c/$slug/account'
     | '/c/$slug/track'
     | '/c/$slug'
@@ -310,7 +288,6 @@ export interface FileRouteTypes {
     | '/products'
     | '/published'
     | '/shipping'
-    | '/team'
     | '/welcome'
     | '/api/chat-ai'
     | '/api/visitor'
@@ -319,7 +296,6 @@ export interface FileRouteTypes {
     | '/chat/$slug'
     | '/settings/notifications'
     | '/settings/payment-methods'
-    | '/team/join'
     | '/c/$slug/account'
     | '/c/$slug/track'
     | '/c/$slug/'
@@ -338,7 +314,6 @@ export interface RootRouteChildren {
   ProductsRoute: typeof ProductsRoute
   PublishedRoute: typeof PublishedRoute
   ShippingRoute: typeof ShippingRoute
-  TeamRoute: typeof TeamRouteWithChildren
   WelcomeRoute: typeof WelcomeRoute
   ApiChatAiRoute: typeof ApiChatAiRoute
   ApiVisitorRoute: typeof ApiVisitorRoute
@@ -435,13 +410,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShippingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/team': {
-      id: '/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof TeamRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/welcome': {
       id: '/welcome'
       path: '/welcome'
@@ -498,13 +466,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsPaymentMethodsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/team/join': {
-      id: '/team/join'
-      path: '/join'
-      fullPath: '/team/join'
-      preLoaderRoute: typeof TeamJoinRouteImport
-      parentRoute: typeof TeamRoute
-    }
     '/c/$slug/': {
       id: '/c/$slug/'
       path: '/'
@@ -528,16 +489,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface TeamRouteChildren {
-  TeamJoinRoute: typeof TeamJoinRoute
-}
-
-const TeamRouteChildren: TeamRouteChildren = {
-  TeamJoinRoute: TeamJoinRoute,
-}
-
-const TeamRouteWithChildren = TeamRoute._addFileChildren(TeamRouteChildren)
 
 interface CSlugRouteChildren {
   CSlugAccountRoute: typeof CSlugAccountRoute
@@ -566,7 +517,6 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRoute: ProductsRoute,
   PublishedRoute: PublishedRoute,
   ShippingRoute: ShippingRoute,
-  TeamRoute: TeamRouteWithChildren,
   WelcomeRoute: WelcomeRoute,
   ApiChatAiRoute: ApiChatAiRoute,
   ApiVisitorRoute: ApiVisitorRoute,
